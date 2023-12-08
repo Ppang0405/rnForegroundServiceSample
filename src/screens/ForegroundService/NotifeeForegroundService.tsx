@@ -114,7 +114,11 @@ function NotifeeForegroundService() {
 								],
 							},
 						},
-					});
+					}).then(() => {
+                        console.log('displayNotification called')
+                    }).catch((error) => {
+                        console.log({error})
+                    });
 					// Alert.alert(
 					//   'Restrictions Detected',
 					//   'To ensure notifications are delivered, please disable battery optimization for the app.',
@@ -165,6 +169,8 @@ const styles = StyleSheet.create({
     button: {
         justifyContent: 'center',
         alignContent: 'center',
+        backgroundColor: 'yellow',
+        height: 30,
     },
     titleText: {
         fontSize: 20,

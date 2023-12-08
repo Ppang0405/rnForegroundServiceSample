@@ -6,7 +6,8 @@ const ForegroundServiceAvailablePackage = () => {
     const navigation = useNavigation()
     return <>
         <Button title={"ForegroundService"} onPress={() => {
-            alert('react-native-foreground-service package is dead')
+//            alert('react-native-foreground-service package is dead')
+            navigation.navigate('ForegroundService')
         }}/>
         <Button title={"ForegroundServiceV2"} onPress={() => {
             navigation.navigate('ForegroundServiceV2')

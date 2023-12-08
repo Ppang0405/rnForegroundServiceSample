@@ -6,6 +6,7 @@ export type ApplicationStackParamList = {
 	ForegroundServiceAvailablePackages: undefined;
 	NotifeeForegroundService: undefined;
 	ForegroundServiceV2: undefined;
+	ForegroundService: undefined;
 };
 
 export type ApplicationScreenProps =
