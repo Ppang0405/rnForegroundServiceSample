@@ -13,9 +13,11 @@
     "pod-install": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install && cd .."
   },
   "dependencies": {
+    "@notifee/react-native": "^7.8.0",
     "@react-native-masked-view/masked-view": "^0.3.0",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
+    "@supersami/rn-foreground-service": "^2.1.0",
     "@tanstack/react-query": "^5.8.9",
     "i18next": "^23.7.7",
     "ky": "^1.1.3",
