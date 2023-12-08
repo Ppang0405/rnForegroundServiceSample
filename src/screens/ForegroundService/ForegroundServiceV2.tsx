@@ -15,6 +15,8 @@ type TaskState = {
 	complete: boolean;
 };
 
+const taskId = 'counter-task-id'
+
 function runner(callback: (taskState: TaskState) => void) {
 	// A fake progress updater.
 	let current = 1;
@@ -31,7 +33,7 @@ function runner(callback: (taskState: TaskState) => void) {
 
 	setTimeout(async () => {
 		clearInterval(interval);
-		console.warn('Background work has completed.');
+
 		callback({
 			update: {
 				total: 120,
@@ -44,10 +46,11 @@ function runner(callback: (taskState: TaskState) => void) {
 
 function ForegroundServiceV2() {
 	const addTask = () => {
+		RNForegroundService.remove_all_tasks();
 		RNForegroundService.add_task(() => counter({ delay: 1000 }), {
 			//            delay: 1000,
 			onLoop: false,
-			taskId: 'taskid',
+			taskId,
 			onError: e => {
 				console.log('Error logging:', e);
 			},
@@ -60,7 +63,6 @@ function ForegroundServiceV2() {
 	const startForegroundService = async () => {
 		try {
 			// start phase
-			RNForegroundService.remove_all_tasks();
 			await RNForegroundService.start({
 				id: 1244,
 				title: 'Foreground Service',
@@ -75,7 +77,7 @@ function ForegroundServiceV2() {
 				color: '#000000',
 				progress: {
 					max: 100,
-					curr: 50,
+					curr: 0,
 				},
 				visibility: 'private',
 				importance: 'high',
@@ -110,12 +112,22 @@ function ForegroundServiceV2() {
 						visibility: 'private',
 						importance: 'high',
 					});
+				} else {
+					await RNForegroundService.stop().then(() => {
+						console.log('RNForegroundService stop func called')
+						console.warn('Background work has completed.');
+					});
+					// https://stackoverflow.com/questions/53061708/how-to-properly-cancel-notification-of-ended-foreground-service-in-android-8
+					// call RNForegroundService.stop() twice to remove notification --> w?
+					await RNForegroundService.stop()
+
+					RNForegroundService.remove_task(taskId);
 				}
 			});
 
 			// stop phase
-			await sleep(5000);
-			await RNForegroundService.stop();
+//			await sleep(5000);
+//			await RNForegroundService.stop();
 		} catch (error) {
 			console.log('start RNForegroundService errors: ', { error });
 		}
